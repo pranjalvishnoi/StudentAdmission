@@ -16,6 +16,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 
 <context:component-scan base-package="controller"/>
 <mvc:annotation-driven/>
+
+<mvc:resources mapping="/resouces/**" location="/WEB-INF/" />
 <bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
@@ -24,5 +26,36 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 		<property name="suffix">
 			<value>.jsp</value>
 		</property>
+</bean>
+
+<mvc:interceptors>
+
+	<mvc:interceptor>
+	<mvc:mapping path="/admission"/>
+	<bean class="controller.DayOfWeekAccesInterceptor" />
+	</mvc:interceptor>
+	
+<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+	<property name="paramName" value="siteTheme"/>
+</bean>
+
+<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	<property name="paramName" value="siteLanguage"/>
+</bean>
+
+</mvc:interceptors>
+
+ <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<property name="basename" value="/WEB-INF/studentmessages"> </property>
+</bean> 
+
+ <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+	<property name="basenamePrefix" value="theme-"> </property>
+</bean> 
+
+<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/>
+
+<bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
+<property name="defaultThemeName" value="green"/>
 </bean>
 </beans>
